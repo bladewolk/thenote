@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+Route::resource('/notes', 'HomeController', ['except' => 'show']);
+Route::resource('import', 'ImportController');
+Route::resource('export', 'ExportController');

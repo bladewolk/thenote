@@ -1,13 +1,16 @@
 {{ csrf_field() }}
 <div class="form-group">
     <label for="description">Note description:</label>
-    <textarea name="description" id="description" cols="30" rows="10" class="form-control"></textarea>
+    <textarea name="description" id="description" cols="30" rows="10" class="form-control">{{isset($item) ? $item->description : ''}}</textarea>
 </div>
 
 <div class="form-group">
-    <label class="control-label">Select File</label>
-    <input id="input-1" type="file" class="file" name="pictures">
+    <label class="btn btn-primary" for="my-file-selector">
+        <input id="my-file-selector" type="file" style="display:none;">
+        Pictures upload
+    </label>
 </div>
-<button class="btn btn-success">
-    ss
+
+<button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="{{$button_name}}">
+    <span class="glyphicon glyphicon-floppy-disk"></span>
 </button>

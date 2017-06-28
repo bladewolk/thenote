@@ -17,10 +17,10 @@
                 <a href="{{route('notes.index')}}">Notes</a>
             </li>
             <li>
-                <a href="#">Import</a>
+                <a href="{{ route('import.index') }}">Import</a>
             </li>
             <li>
-                <a href="#">Export</a>
+                <a href="{{ route('export.index') }}">Export</a>
             </li>
             <li>
                 <a href="{{route('notes.create')}}">Add</a>
@@ -29,6 +29,9 @@
     </nav>
 </div>
 <div class="container">
+    @if (Session::has('success'))
+        <div class="label label-success">{{ Session::get('success') }}</div>
+    @endif
     @yield('body')
 </div>
 
