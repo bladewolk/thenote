@@ -7,3 +7,16 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+nav{
+  ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li{
+      padding: 10px 15px;
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
+}
