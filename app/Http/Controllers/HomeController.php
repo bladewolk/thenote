@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NoteRequest;
 use App\Models\Note;
+use App\Models\Picture;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -15,7 +17,7 @@ class HomeController extends Controller
     public function index()
     {
         return view('notes.index',[
-            'notes' => Note::paginate(20)
+            'notes' => Note::with('pictures')->paginate(20)
         ]);
     }
 
@@ -35,21 +37,14 @@ class HomeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NoteRequest $request)
     {
-        Note::create($request->all());
-        return redirect()->route('notes.index')->with('success', 'Note created');
-    }
+        $note = Note::create($request->all());
+        if ($request->pictures && !empty($request->pictures)){
+            Picture::savePictures($request->pictures, $note);
+        }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+       return redirect()->route('notes.index')->with('success', 'Note created');
     }
 
     /**
@@ -72,9 +67,14 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Note $note)
+    public function update(NoteRequest $request, Note $note)
     {
         $note->update($request->all());
+
+        if ($request->pictures && !empty($request->pictures)){
+            Picture::savePictures($request->pictures, $note);
+        }
+
         return redirect()->route('notes.index')->with('success', 'Note updated');
     }
 

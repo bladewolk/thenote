@@ -32,6 +32,12 @@
     @if (Session::has('success'))
         <div class="label label-success">{{ Session::get('success') }}</div>
     @endif
+
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <span class="label label-danger">{{ $error }}</span>
+        @endforeach
+    @endif
     @yield('body')
 </div>
 

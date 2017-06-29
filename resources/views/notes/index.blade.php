@@ -16,11 +16,17 @@
                     <td>
                         {{ $note->id }}
                     </td>
-                    <td>
-                        {{ $note->description }}
+                    <td class="descrtiption" style="width: 55%">
+                        {{ str_limit($note->description, 200) }}
                     </td>
-                    <td>
-                        john@example.com
+                    <td style="width: 30%">
+                        @forelse($note->pictures as $picture)
+                            <div class="mini-wrapper">
+                                <img src="{{ asset('uploads/'.$picture->name) }}" alt="{{ $picture->name }}">
+                            </div>
+                        @empty
+                            <span>No pictures</span>
+                        @endforelse
                     </td>
                     {{--Actions--}}
                     <td style="width: 10%">

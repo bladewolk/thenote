@@ -6,11 +6,21 @@
 
 <div class="form-group">
     <label class="btn btn-primary" for="my-file-selector">
-        <input id="my-file-selector" type="file" style="display:none;">
+        <input id="my-file-selector" type="file" style="display:none;" name="pictures[]" multiple>
         Pictures upload
     </label>
 </div>
 
-<button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="{{$button_name}}">
-    <span class="glyphicon glyphicon-floppy-disk"></span>
-</button>
+@if (isset($item) && !empty($item->pictures))
+    @foreach($item->pictures as $picture)
+        <div class="picture-wrapper">
+            <img src="{{ asset('uploads/' . $picture->name) }}" alt="{{ $picture->name }}">
+        </div>
+    @endforeach
+@endif
+
+<div class="form-group">
+    <button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="{{$button_name}}">
+        <span class="glyphicon glyphicon-floppy-disk"></span>
+    </button>
+</div>
