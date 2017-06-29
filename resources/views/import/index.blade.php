@@ -5,7 +5,7 @@
         <div class="form-group">
             <label class="btn btn-primary" for="my-file-selector">
                 <input id="my-file-selector" type="file" style="display:none;" name="file">
-                File: <span class="label label-danger">ZIP</span>
+                File: <span class="label label-danger">TXT</span> <span class="label label-danger">XML</span>
             </label>
         </div>
 

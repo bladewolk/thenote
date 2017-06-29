@@ -1,7 +1,12 @@
 {{ csrf_field() }}
 <div class="form-group">
-    <label for="description">Note description:</label>
-    <textarea name="description" id="summernote" cols="30" rows="10" class="form-control">{{isset($item) ? $item->description : ''}}</textarea>
+    <label for="description">Short description:</label>
+    <textarea name="short_description" class="summernote" cols="30" rows="10" class="form-control">{{isset($item) ? $item->short_description : ''}}</textarea>
+</div>
+
+<div class="form-group">
+    <label for="description">Full description:</label>
+    <textarea name="description" class="summernote" cols="30" rows="10" class="form-control">{{isset($item) ? $item->description : ''}}</textarea>
 </div>
 
 <div class="form-group">

@@ -26,7 +26,6 @@ class ExportController extends Controller
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function export(Request $request){
-
         if ($request->get('format') == 'txt'){
             Note::exportTXT();
             return response()->download(public_path('export.zip'));

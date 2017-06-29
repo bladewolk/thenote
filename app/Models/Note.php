@@ -9,7 +9,7 @@ use SoapBox\Formatter\Formatter;
 
 class Note extends Model
 {
-    protected $fillable = ['description'];
+    protected $fillable = ['description', 'short_description'];
 
     public function pictures(){
         return $this->morphMany(Picture::class, 'picturetable');
@@ -31,7 +31,7 @@ class Note extends Model
                 });
 
             $filepath = public_path('export/'. $note->id .'/'. $note->id .'.txt');
-            file_put_contents($filepath, $note->description);
+            file_put_contents($filepath, $note->toJson());
         }
 
         $foldersPath = glob(public_path('export'));
@@ -42,6 +42,9 @@ class Note extends Model
         File::cleanDirectory(public_path('export/'));
     }
 
+    /**
+     * Export zip with xml with images in same folders
+     */
     public static function ExportXML(){
         if (File::exists(public_path('export.zip')))
             File::delete(public_path('export.zip'));
@@ -64,5 +67,18 @@ class Note extends Model
             ->close();
 
         File::cleanDirectory(public_path('export/'));
+    }
+
+    public static function Import($file){
+        if ($file->getClientOriginalExtension() == 'txt'){
+            self::create((array)json_decode(File::get($file)));
+        }
+
+        if ($file->getClientOriginalExtension() == 'xml'){
+            $items = Formatter::make(File::get($file), Formatter::XML)->toArray();
+            foreach ($items['item'] as $item){
+                self::create($item);
+            }
+        }
     }
 }

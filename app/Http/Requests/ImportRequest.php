@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class NoteRequest extends FormRequest
+class ImportRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +24,14 @@ class NoteRequest extends FormRequest
     public function rules()
     {
         return [
-            'short_description' => 'required',
-            'description' => 'required',
-            'pictures.*' => 'mimes:jpeg,bmp,png'
+            'file' => 'required|mimes:xml,txt',
         ];
     }
 
     public function messages(){
         return [
-            'short_description.required' => 'Short description is required',
-          'description.required' => 'The field description is required!',
-            'pictures.*.mimes' => 'Upload bad format picture (jpeg, bpm, png)'
+          'file.required' => 'The file to import is required',
+            'file.mimes' => 'The file must be a type of XML or TXT',
         ];
     }
 }

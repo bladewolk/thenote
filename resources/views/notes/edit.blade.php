@@ -11,7 +11,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.4/summernote.js"></script>
     <script>
         $(document).ready(function() {
-            $('#summernote').summernote();
+            $('.summernote').summernote();
         });
     </script>
 @endsection

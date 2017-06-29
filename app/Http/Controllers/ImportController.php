@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ImportRequest;
+use App\Models\Note;
 
 class ImportController extends Controller
 {
@@ -16,7 +17,15 @@ class ImportController extends Controller
         return view('import.index');
     }
 
-    public function import(Request $request){
-        dd($request->all());
+    /**
+     * @param ImportRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function import(ImportRequest $request){
+        if ($request->file('file'))
+            Note::import($request->file('file'));
+
+        return redirect()->route('notes.index')
+            ->with('success', 'Import DONE');
     }
 }
