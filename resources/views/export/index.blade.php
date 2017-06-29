@@ -6,9 +6,9 @@
         <span>File Type</span>
         <div class="form-group">
             <input id="format_one" type="radio" name="format" value="txt" checked>
-            <label for="format_one">TXT</label>
+            <label for="format_one" class="label label-primary">TXT</label>
             <input id="format_two" type="radio" name="format" value="xml">
-            <label for="format_two">XML</label>
+            <label for="format_two" class="label label-primary">XML</label>
         </div>
         <div class="form-group">
             <button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Export">
