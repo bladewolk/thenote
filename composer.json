@@ -9,7 +9,6 @@
         "ext-sqlite3": "*",
         "ext-pdo_sqlite": "*",
         "laravel/framework": "5.4.*",
-        "laravel/tinker": "~1.0",
         "chumper/zipper": "1.0.x",
         "soapbox/laravel-formatter": "2.x"
     },
