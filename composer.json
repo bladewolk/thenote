@@ -44,7 +44,6 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize",
-            "php file_put_contents('/database/database.sqlite', '')"
         ]
     },
     "config": {
