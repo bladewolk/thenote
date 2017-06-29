@@ -17,7 +17,7 @@ class HomeController extends Controller
     public function index()
     {
         return view('notes.index',[
-            'notes' => Note::with('pictures')->paginate(20)
+            'notes' => Note::with('pictures')->paginate(15)
         ]);
     }
 

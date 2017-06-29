@@ -48,4 +48,6 @@
     @else
     <h1>Empty</h1>
     @endif
+
+    {{ $notes->links() }}
 @endsection
