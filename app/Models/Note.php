@@ -15,39 +15,54 @@ class Note extends Model
         return $this->morphMany(Picture::class, 'picturetable');
     }
 
+    /**
+     * Export zip with txt notes and images
+     */
     public static function ExportTXT(){
         if (File::exists(public_path('export.zip')))
             File::delete(public_path('export.zip'));
 
-        File::cleanDirectory(public_path('export'));
-        $notes = self::all();
+        $notes = self::with('pictures')->get();
         foreach ($notes as $note){
-            $filename = public_path('export/'.$note->id.'.txt');
-            file_put_contents($filename, $note->description);
+            mkdir(public_path('export/'.$note->id));
+            if ($note->pictures->isNotEmpty())
+                $note->pictures->each(function($image) use ($note) {
+                   File::copy(public_path('uploads/'. $image->name), public_path('export/'. $note->id .'/'.$image->name));
+                });
+
+            $filepath = public_path('export/'. $note->id .'/'. $note->id .'.txt');
+            file_put_contents($filepath, $note->description);
         }
 
-        $imagePath = glob(public_path('uploads/*'));
-        $txtPath = glob(public_path('export/*'));
+        $foldersPath = glob(public_path('export'));
         Zipper::make(public_path('export.zip'))
-            ->add(array_merge($imagePath, $txtPath))
+            ->add($foldersPath)
             ->close();
+
+        File::cleanDirectory(public_path('export/'));
     }
 
     public static function ExportXML(){
         if (File::exists(public_path('export.zip')))
             File::delete(public_path('export.zip'));
 
-        File::cleanDirectory(public_path('export'));
-        $notes = self::all()->toJson();
-        $formatter = Formatter::make($notes, Formatter::JSON);
-        $xml = $formatter->toXml();
-        file_put_contents(public_path('export/'.'notes.xml'), $xml);
+        $notes = self::with('pictures')->get();
+        foreach ($notes as $note){
+            mkdir(public_path('export/'.$note->id));
+            if ($note->pictures->isNotEmpty())
+                $note->pictures->each(function($image) use ($note) {
+                    File::copy(public_path('uploads/'. $image->name), public_path('export/'. $note->id .'/'.$image->name));
+                });
+        }
 
-        $imagePath = glob(public_path('uploads/*'));
-        $xmlPath = [0 => public_path('export/'.'notes.xml')];
+        $formatter = Formatter::make($notes->toJson(), Formatter::JSON);
+        file_put_contents(public_path('export/'.'notes.xml'), $formatter->toXml());
 
+        $foldersPath = glob(public_path('export'));
         Zipper::make(public_path('export.zip'))
-            ->add(array_merge($imagePath, $xmlPath))
+            ->add($foldersPath)
             ->close();
+
+        File::cleanDirectory(public_path('export/'));
     }
 }
