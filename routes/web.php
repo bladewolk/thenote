@@ -12,6 +12,8 @@
 */
 
 Route::get('/', function () {
+    echo phpinfo();
+    exit();
     return redirect()->route('notes.index');
 });
 
