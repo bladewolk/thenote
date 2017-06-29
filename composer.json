@@ -6,6 +6,8 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "ext-sqlite3": "*",
+        "ext-pdo_sqlite": "*",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "chumper/zipper": "1.0.x",
@@ -38,9 +40,7 @@
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize",
-            "php artisan migrate",
-            "sudo chmod -R 777 app/",
+            "php artisan optimize"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
