@@ -73,7 +73,7 @@ class Note extends Model
         if ($file->getClientOriginalExtension() == 'txt'){
             self::create((array)json_decode(File::get($file)));
         }
-
+wrong
         if ($file->getClientOriginalExtension() == 'xml'){
             $items = Formatter::make(File::get($file), Formatter::XML)->toArray();
             foreach ($items['item'] as $item){
