@@ -16,3 +16,7 @@ Route::get('/', function () {
 });
 
 Route::resource('/notes', 'HomeController', ['except' => 'show']);
+Route::get('/notes/export', 'ExportController@index')->name('export');
+Route::post('/notes/export', 'ExportController@export')->name('export.do');
+Route::get('/notes/import', 'ImportController@index')->name('import');
+Route::post('/notes/import', 'ImportController@import')->name('import.do');

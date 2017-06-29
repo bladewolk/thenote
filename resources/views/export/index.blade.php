@@ -1,7 +1,7 @@
 @extends('layout')
 @section('body')
     @if ($count)
-    <form action="{{ route('export.store') }}" method="POST">
+    <form action="{{ route('export.do') }}" method="POST">
         {{ csrf_field() }}
         <span>File Type</span>
         <div class="form-group">

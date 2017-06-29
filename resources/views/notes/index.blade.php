@@ -17,7 +17,7 @@
                         {{ $note->id }}
                     </td>
                     <td class="descrtiption" style="width: 55%">
-                        {{ str_limit($note->description, 200) }}
+                        {!! str_limit($note->description, 200) !!}
                     </td>
                     <td style="width: 30%">
                         @forelse($note->pictures as $picture)

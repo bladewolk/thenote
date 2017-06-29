@@ -1,10 +1,11 @@
 @extends('layout')
 @section('body')
-    <form action="{{ route('import.store') }}">
+    <form action="{{ route('import.do') }}" method="POST" enctype="multipart/form-data">
+        {{ csrf_field() }}
         <div class="form-group">
             <label class="btn btn-primary" for="my-file-selector">
-                <input id="my-file-selector" type="file" style="display:none;">
-                File to import
+                <input id="my-file-selector" type="file" style="display:none;" name="file">
+                File: <span class="label label-danger">XML</span> <span class="label label-danger">TXT</span>
             </label>
         </div>
 
@@ -12,6 +13,4 @@
             <span class="glyphicon glyphicon-import"></span>
         </button>
     </form>
-
-
 @endsection

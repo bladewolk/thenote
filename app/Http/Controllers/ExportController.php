@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
+use Chumper\Zipper\Facades\Zipper;
 use Illuminate\Http\Request;
+use File;
+use SoapBox\Formatter\Formatter;
+
 
 class ExportController extends Controller
 {
@@ -20,68 +24,55 @@ class ExportController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|void
      */
-    public function create()
-    {
-        //
+    public function export(Request $request){
+        if (File::exists(public_path('export.zip')))
+            File::delete(public_path('export.zip'));
+
+        if ($request->format == 'txt')
+            return $this->exportTXT();
+        return $this->exportXML();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function store(Request $request)
-    {
-        dd($request->all());
+    public function exportTXT(){
+        File::cleanDirectory(public_path('export'));
+        $notes = Note::all();
+        foreach ($notes as $note){
+            $filename = public_path('export/'.$note->id.'.txt');
+            file_put_contents($filename, $note->description);
+        }
+
+        $imagePath = glob(public_path('uploads/*'));
+        $txtPath = glob(public_path('export/*'));
+        Zipper::make(public_path('export.zip'))
+            ->add(array_merge($imagePath, $txtPath))
+            ->close();
+
+        return response()->download(public_path('export.zip'));
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function show($id)
-    {
-        //
-    }
+    public function exportXML(){
+        File::cleanDirectory(public_path('export'));
+        $notes = Note::all()->toJson();
+        $formatter = Formatter::make($notes, Formatter::JSON);
+        $xml = $formatter->toXml();
+        file_put_contents(public_path('export/'.'notes.xml'), $xml);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $imagePath = glob(public_path('uploads/*'));
+        $xmlPath = [0 => public_path('export/'.'notes.xml')];
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        Zipper::make(public_path('export.zip'))
+            ->add(array_merge($imagePath, $xmlPath))
+            ->close();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->download(public_path('export.zip'));
     }
 }

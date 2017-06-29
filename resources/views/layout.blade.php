@@ -17,10 +17,10 @@
                 <a href="{{route('notes.index')}}">Notes</a>
             </li>
             <li>
-                <a href="{{ route('import.index') }}">Import</a>
+                <a href="{{ route('import') }}">Import</a>
             </li>
             <li>
-                <a href="{{ route('export.index') }}">Export</a>
+                <a href="{{ route('export') }}">Export</a>
             </li>
             <li>
                 <a href="{{route('notes.create')}}">Add</a>
@@ -46,6 +46,7 @@
         integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+@yield('scripts')
 <script>
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
