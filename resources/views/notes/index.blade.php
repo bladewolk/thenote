@@ -14,7 +14,7 @@
             @foreach($notes as $note)
                 <tr>
                     <td>
-                        {{ $note->id }}
+                        {{ $notes->total() - ($notes->perPage() * ($notes->currentPage() - 1) + $loop->index) }}
                     </td>
                     <td class="descrtiption" style="width: 55%">
                         {!! str_limit($note->short_description, 200) !!}

@@ -19,7 +19,7 @@ class HomeController extends Controller
         return view('notes.index',[
             'notes' => Note::with('pictures')
                 ->orderBy('id', 'desc')
-                ->paginate(15)
+                ->paginate(10)
         ]);
     }
 
